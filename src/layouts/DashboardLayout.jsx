@@ -107,19 +107,34 @@ export default function DashboardLayout() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-[#0e1512] overflow-hidden text-on-surface">
+    <div className="flex h-screen w-full bg-[#0e1512] overflow-hidden text-on-surface relative">
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[45] md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+      )}
+
       {/* Sidebar */}
-      <aside className={`bg-[#1a211f] border-r border-white/5 transition-all duration-300 flex flex-col z-50 ${isSidebarOpen ? 'w-64' : 'w-20'}`}>
+      <aside className={`
+        bg-[#1a211f] border-r border-white/5 transition-all duration-300 flex flex-col z-50 
+        fixed md:relative h-full
+        ${isSidebarOpen ? 'w-64 translate-x-0' : 'w-20 -translate-x-full md:translate-x-0'}
+      `}>
         {/* Brand */}
-        <div className="h-16 flex items-center px-6 border-b border-white/5 shrink-0">
+        <div className="h-16 flex items-center px-6 border-b border-white/5 shrink-0 justify-between">
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-8 h-8 rounded bg-primary-fixed/20 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform text-primary-fixed">
               {module.icon}
             </div>
-            {isSidebarOpen && (
+            {(isSidebarOpen || window.innerWidth < 768) && (
               <span className="text-xl font-bold text-primary tracking-tight">Monivexa</span>
             )}
           </Link>
+          <button className="md:hidden text-on-surface-variant" onClick={() => setIsSidebarOpen(false)}>
+            <ChevronRight className="rotate-180" />
+          </button>
         </div>
 
         {/* Navigation */}
@@ -127,7 +142,10 @@ export default function DashboardLayout() {
           {sidebarLinks.map((link, i) => (
             <button
               key={i}
-              onClick={() => link.path !== '#' && navigate(link.path)}
+              onClick={() => {
+                if (link.path !== '#') navigate(link.path);
+                if (window.innerWidth < 768) setIsSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${
                 location.pathname === link.path 
                 ? 'bg-primary-fixed/10 text-primary-fixed border-r-2 border-primary-fixed' 
@@ -152,7 +170,7 @@ export default function DashboardLayout() {
 
         {/* User Profile */}
         <div className="p-4 border-t border-white/5">
-          <div className={`bg-white/5 p-3 rounded-xl border border-white/5 flex items-center gap-3 ${!isSidebarOpen && 'justify-center px-0'}`}>
+          <div className={`bg-white/5 p-3 rounded-xl border border-white/5 flex items-center gap-3 ${!isSidebarOpen && 'md:justify-center md:px-0'}`}>
             <div className="w-8 h-8 rounded-full bg-primary-fixed/10 border border-primary-fixed/30 shrink-0 flex items-center justify-center text-xs font-bold text-primary-fixed">
               {user ? user.username.substring(0, 2).toUpperCase() : 'MX'}
             </div>
@@ -174,7 +192,7 @@ export default function DashboardLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Top bar */}
-        <header className="h-16 flex items-center justify-between px-6 bg-[#0e1512]/60 backdrop-blur-xl border-b border-white/5 z-40">
+        <header className="h-16 flex items-center justify-between px-4 md:px-6 bg-[#0e1512]/60 backdrop-blur-xl border-b border-white/5 z-40">
           <div className="flex items-center gap-4 flex-1">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -183,18 +201,18 @@ export default function DashboardLayout() {
               <Menu size={20} />
             </button>
             
-            {/* Search */}
+            {/* Search - Hidden on very small screens */}
             <div className="hidden sm:flex relative max-w-md w-full">
               <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/40" />
               <input 
                 type="text" 
-                placeholder="Search resources, users, logs..."
+                placeholder="Search..."
                 className="w-full bg-white/5 border border-white/5 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-primary-fixed/30 transition-all"
               />
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-surface-container/50 border border-outline-variant/20 rounded-full">
               <div className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></div>
               <span className="text-[10px] font-label-caps text-on-surface-variant uppercase tracking-widest">Network Online</span>
@@ -205,14 +223,14 @@ export default function DashboardLayout() {
               <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
             </button>
             
-            <button className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant/50 rounded-full transition-colors">
+            <button className="hidden sm:flex p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant/50 rounded-full transition-colors">
               <HelpCircle size={20} />
             </button>
           </div>
         </header>
 
         {/* Content Canvas */}
-        <main className="flex-1 overflow-y-auto p-gutter relative">
+        <main className="flex-1 overflow-y-auto p-4 md:p-gutter relative">
           <Outlet />
         </main>
       </div>
