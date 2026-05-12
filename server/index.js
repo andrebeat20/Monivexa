@@ -148,3 +148,5 @@ app.get('/api/profile', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Backend server Monivexa running on http://localhost:${PORT}`);
 });
+
+export default app;
