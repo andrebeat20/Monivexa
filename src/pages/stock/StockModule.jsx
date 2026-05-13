@@ -13,8 +13,10 @@ import {
   ChevronRight,
   Plus
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function StockModule() {
+  const navigate = useNavigate();
   const stockItems = [
     { name: 'Cisco Catalyst 9300', sku: 'CS-9300-48P', category: 'Active Equipment', qty: 12, status: 'Healthy' },
     { name: 'Corning SMF-28 Ultra', sku: 'FBR-SMF-10K', category: 'Fiber', qty: 2, status: 'Low Stock' },
@@ -164,7 +166,10 @@ export default function StockModule() {
               </table>
             </div>
             <div className="p-4 border-t border-outline-variant/20 flex justify-center bg-surface-container-low/30 group">
-              <button className="text-primary-fixed text-body-sm font-medium hover:underline flex items-center gap-2 group-hover:gap-3 transition-all uppercase tracking-widest font-label-caps">
+              <button 
+                onClick={() => navigate('/stock/inventory')}
+                className="text-primary-fixed text-body-sm font-medium hover:underline flex items-center gap-2 group-hover:gap-3 transition-all uppercase tracking-widest font-label-caps"
+              >
                 View Full Inventory <Plus size={16} />
               </button>
             </div>

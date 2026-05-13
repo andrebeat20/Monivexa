@@ -50,35 +50,35 @@ export default function DashboardLayout() {
     if (location.pathname.startsWith('/billing')) {
       return [
         { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/billing' },
-        { label: 'Tagihan', icon: <Receipt size={20} />, path: '#' },
-        { label: 'Pelanggan', icon: <Users size={20} />, path: '#' },
-        { label: 'Laporan', icon: <BarChart3 size={20} />, path: '#' },
-        { label: 'Kas Keuangan', icon: <Wallet size={20} />, path: '#' },
-        { label: 'Notifikasi', icon: <Bell size={20} />, path: '#' },
-        { label: 'Pengaduan', icon: <AlertTriangle size={20} />, path: '#' },
-        { label: 'Pendaftaran', icon: <UserPlus size={20} />, path: '#' },
-        { label: 'Master', icon: <Database size={20} />, path: '#' },
-        { label: 'Alat', icon: <Wrench size={20} />, path: '#' },
+        { label: 'Tagihan', icon: <Receipt size={20} />, path: '/billing/invoices' },
+        { label: 'Pelanggan', icon: <Users size={20} />, path: '/billing/customers' },
+        { label: 'Laporan', icon: <BarChart3 size={20} />, path: '/billing/reports' },
+        { label: 'Kas Keuangan', icon: <Wallet size={20} />, path: '/billing/cashflow' },
+        { label: 'Notifikasi', icon: <Bell size={20} />, path: '/billing/notifications' },
+        { label: 'Pengaduan', icon: <AlertTriangle size={20} />, path: '/billing/tickets' },
+        { label: 'Pendaftaran', icon: <UserPlus size={20} />, path: '/billing/registration' },
+        { label: 'Master', icon: <Database size={20} />, path: '/billing/master' },
+        { label: 'Alat', icon: <Wrench size={20} />, path: '/billing/tools' },
       ];
     }
 
     if (location.pathname.startsWith('/stock')) {
       return [
         { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/stock' },
-        { label: 'Inventory', icon: <Package size={20} />, path: '#' },
-        { label: 'Warehouses', icon: <Database size={20} />, path: '#' },
-        { label: 'Reports', icon: <BarChart3 size={20} />, path: '#' },
-        { label: 'Logistics', icon: <Wrench size={20} />, path: '#' }, // Using wrench for logistics as a placeholder
+        { label: 'Inventory', icon: <Package size={20} />, path: '/stock/inventory' },
+        { label: 'Warehouses', icon: <Database size={20} />, path: '/stock/warehouses' },
+        { label: 'Reports', icon: <BarChart3 size={20} />, path: '/stock/reports' },
+        { label: 'Logistics', icon: <Wrench size={20} />, path: '/stock/logistics' },
       ];
     }
     
     if (location.pathname.startsWith('/network')) {
       return [
         { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/network' },
-        { label: 'OLT Status', icon: <Network size={20} />, path: '#' },
-        { label: 'ODP Management', icon: <Settings size={20} />, path: '#' },
-        { label: 'Support', icon: <HelpCircle size={20} />, path: '#' },
-        { label: 'Logs', icon: <Database size={20} />, path: '#' }, // Using database for logs placeholder
+        { label: 'OLT Status', icon: <Network size={20} />, path: '/network/olt' },
+        { label: 'ODP Management', icon: <Settings size={20} />, path: '/network/odp' },
+        { label: 'Support', icon: <HelpCircle size={20} />, path: '/network/support' },
+        { label: 'Logs', icon: <Database size={20} />, path: '/network/logs' },
       ];
     }
     

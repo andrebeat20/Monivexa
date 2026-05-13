@@ -14,10 +14,19 @@ import {
 } from 'lucide-react';
 import { Chart as ChartJS, ArcElement, Tooltip as ChartTooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { useNavigate } from 'react-router-dom';
+
+// Shared Components
+import { GlassCard } from '../../components/shared/GlassCard';
+import { StatCard } from '../../components/shared/StatCard';
+import { StatusBadge } from '../../components/shared/StatusBadge';
+import { PageHeader } from '../../components/shared/PageHeader';
 
 ChartJS.register(ArcElement, ChartTooltip, Legend);
 
 export default function BillingModule() {
+  const navigate = useNavigate();
+  
   const chartData = {
     labels: ['Paid', 'Unpaid'],
     datasets: [{
@@ -54,90 +63,34 @@ export default function BillingModule() {
     { id: 'INV-2605-005', name: 'KUTREK', address: 'SURYA DELI', product: 'Paket Bisnis', price: '450.000', due: '18 May 2026', status: 'Paid' },
   ];
 
+  const headerActions = (
+    <>
+      <button className="bg-surface-container border border-outline-variant/30 text-on-surface px-4 py-2 rounded-lg text-body-sm font-medium hover:bg-surface-variant transition-all flex items-center gap-2">
+        <Printer size={18} /> Print Report
+      </button>
+      <button className="bg-primary-fixed text-[#0e1512] px-4 py-2 rounded-lg text-body-sm font-semibold hover:shadow-[0_0_15px_rgba(95,251,214,0.4)] transition-all flex items-center gap-2">
+        <Plus size={18} /> Input Transaksi
+      </button>
+    </>
+  );
+
   return (
-    <div className="flex flex-col gap-lg max-w-container-max mx-auto w-full">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-headline-lg font-headline-lg text-primary mb-1">Billing Overview</h1>
-          <p className="text-body-sm text-on-surface-variant uppercase tracking-widest font-label-caps">PT SAFANET DIGITAL NETWORKING - MAY 2026</p>
-        </div>
-        <div className="flex gap-3">
-          <button className="bg-surface-container border border-outline-variant/30 text-on-surface px-4 py-2 rounded-lg text-body-sm font-medium hover:bg-surface-variant transition-all flex items-center gap-2">
-            <Printer size={18} />
-            Print Report
-          </button>
-          <button className="bg-primary-fixed text-[#0e1512] px-4 py-2 rounded-lg text-body-sm font-semibold hover:shadow-[0_0_15px_rgba(95,251,214,0.4)] transition-all flex items-center gap-2">
-            <Plus size={18} />
-            Input Transaksi
-          </button>
-        </div>
-      </div>
+    <div className="flex flex-col gap-lg max-w-container-max mx-auto w-full pb-20">
+      <PageHeader 
+        title="Billing Overview" 
+        subtitle="PT SAFANET DIGITAL NETWORKING - MAY 2026" 
+        actions={headerActions} 
+      />
 
-      {/* Stats Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
-        <div className="bg-[#1a211f]/80 backdrop-blur-md border border-outline-variant/30 rounded-xl p-6 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-            <Receipt size={64} className="text-primary-fixed" />
-          </div>
-          <div className="relative z-10">
-            <p className="text-label-caps text-on-surface-variant mb-2">TOTAL TAGIHAN</p>
-            <h3 className="text-headline-lg text-primary mb-2 font-bold">225</h3>
-            <div className="flex items-center text-body-sm">
-              <span className="text-primary-fixed flex items-center bg-primary-fixed/10 px-2 py-0.5 rounded text-xs font-medium mr-2">
-                <TrendingUp size={12} className="mr-1" /> +5%
-              </span>
-              <span className="text-on-surface-variant opacity-70">vs last month</span>
-            </div>
-          </div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-surface-variant">
-            <div className="h-full bg-primary-fixed w-full"></div>
-          </div>
-        </div>
-
-        <div className="bg-[#1a211f]/80 backdrop-blur-md border border-outline-variant/30 rounded-xl p-6 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-            <AlertCircle size={64} className="text-error" />
-          </div>
-          <div className="relative z-10">
-            <p className="text-label-caps text-on-surface-variant mb-2">BELUM LUNAS</p>
-            <h3 className="text-headline-lg text-primary mb-2 font-bold">87.3M</h3>
-            <div className="flex items-center text-body-sm">
-              <span className="text-error flex items-center bg-error/10 px-2 py-0.5 rounded text-xs font-medium mr-2 uppercase tracking-tighter">
-                Action Needed
-              </span>
-              <span className="text-on-surface-variant opacity-70">142 invoices</span>
-            </div>
-          </div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-surface-variant">
-            <div className="h-full bg-error w-[60%]"></div>
-          </div>
-        </div>
-
-        <div className="bg-[#1a211f]/80 backdrop-blur-md border border-outline-variant/30 rounded-xl p-6 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-            <CheckCircle size={64} className="text-primary-fixed" />
-          </div>
-          <div className="relative z-10">
-            <p className="text-label-caps text-on-surface-variant mb-2">LUNAS / TOTAL</p>
-            <h3 className="text-headline-lg text-primary mb-2 font-bold">12.8M <span className="text-body-lg text-on-surface-variant font-normal">/ 100M</span></h3>
-            <div className="flex items-center text-body-sm">
-              <span className="text-primary-fixed flex items-center bg-primary-fixed/10 px-2 py-0.5 rounded text-xs font-medium mr-2">
-                12.8%
-              </span>
-              <span className="text-on-surface-variant opacity-70">collection rate</span>
-            </div>
-          </div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-surface-variant">
-            <div className="h-full bg-primary-fixed w-[12.8%]"></div>
-          </div>
-        </div>
+        <StatCard label="TOTAL TAGIHAN" value="225" trend="+5%" icon={<Receipt />} />
+        <StatCard label="BELUM LUNAS" value="87.3M" trend="Action Needed" icon={<AlertCircle />} color="text-error" />
+        <StatCard label="COLLECTION RATE" value="12.8%" trend="12.8M" icon={<CheckCircle />} color="text-primary-fixed" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-lg">
-        {/* Main Table Section */}
         <div className="lg:col-span-2 flex flex-col gap-md">
-          <div className="bg-[#1a211f]/80 backdrop-blur-md border border-outline-variant/30 rounded-xl overflow-hidden shadow-xl">
+          <GlassCard hover={false} className="overflow-hidden shadow-xl">
             <div className="px-6 py-5 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container/30">
               <h2 className="text-headline-md text-primary font-bold">Tagihan - May 2026</h2>
               <div className="flex gap-2">
@@ -163,7 +116,11 @@ export default function BillingModule() {
                 </thead>
                 <tbody className="text-body-sm divide-y divide-outline-variant/10">
                   {invoices.map((inv, idx) => (
-                    <tr key={idx} className="hover:bg-surface-container-low/50 transition-colors group">
+                    <tr 
+                      key={idx} 
+                      className="hover:bg-surface-container-low/50 transition-colors group cursor-pointer"
+                      onClick={() => navigate(`/billing/invoice/${inv.id}`)}
+                    >
                       <td className="px-6 py-4 font-mono text-primary-fixed">{inv.id}</td>
                       <td className="px-6 py-4">
                         <div className="font-medium text-primary uppercase">{inv.name}</div>
@@ -171,13 +128,7 @@ export default function BillingModule() {
                       </td>
                       <td className="px-6 py-4 text-right font-mono text-on-surface font-semibold">{inv.price}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter border ${
-                          inv.status === 'Paid' 
-                          ? 'bg-primary-fixed/10 text-primary-fixed border-primary-fixed/20' 
-                          : 'bg-error/10 text-error border-error/20'
-                        }`}>
-                          {inv.status === 'Paid' ? 'Lunas' : 'Belum Lunas'}
-                        </span>
+                        <StatusBadge status={inv.status === 'Paid' ? 'Lunas' : 'Belum Lunas'} type={inv.status === 'Paid' ? 'success' : 'error'} />
                       </td>
                       <td className="px-6 py-4 text-center">
                         <button className="text-on-surface-variant hover:text-primary-fixed transition-colors p-1 hover:bg-surface-variant rounded">
@@ -190,17 +141,18 @@ export default function BillingModule() {
               </table>
             </div>
             <div className="p-4 border-t border-outline-variant/20 flex justify-center bg-surface-container-low/30 group">
-              <button className="text-primary-fixed text-body-sm font-medium hover:underline flex items-center gap-2 group-hover:gap-3 transition-all">
+              <button 
+                onClick={() => navigate('/billing/invoices')}
+                className="text-primary-fixed text-body-sm font-medium hover:underline flex items-center gap-2 group-hover:gap-3 transition-all"
+              >
                 View All Invoices <Plus size={16} />
               </button>
             </div>
-          </div>
+          </GlassCard>
         </div>
 
-        {/* Side Section: Activity & Distribution */}
         <div className="flex flex-col gap-lg">
-          {/* Activity Timeline */}
-          <div className="bg-[#1a211f]/80 backdrop-blur-md border border-outline-variant/30 rounded-xl overflow-hidden shadow-xl">
+          <GlassCard className="overflow-hidden shadow-xl" hover={false}>
             <div className="px-6 py-5 border-b border-outline-variant/20 flex items-center gap-2">
               <History size={18} className="text-primary-fixed" />
               <h2 className="text-headline-md text-primary font-bold">Activity</h2>
@@ -235,10 +187,9 @@ export default function BillingModule() {
                 </div>
               </div>
             </div>
-          </div>
+          </GlassCard>
 
-          {/* Chart Section */}
-          <div className="bg-[#1a211f]/80 backdrop-blur-md border border-outline-variant/30 rounded-xl overflow-hidden shadow-xl">
+          <GlassCard className="overflow-hidden shadow-xl" hover={false}>
             <div className="px-6 py-5 border-b border-outline-variant/20 flex justify-between items-center">
               <h2 className="text-headline-md text-primary font-bold">Distribution</h2>
               <PieIcon size={18} className="text-on-surface-variant opacity-60" />
@@ -268,7 +219,7 @@ export default function BillingModule() {
                 </div>
               </div>
             </div>
-          </div>
+          </GlassCard>
         </div>
       </div>
     </div>
