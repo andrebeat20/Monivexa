@@ -10,9 +10,34 @@ import {
   Package,
   CheckCircle2,
   XCircle,
-  Mail
+  Mail,
+  Globe,
+  ChevronRight,
+  ShieldCheck,
+  Calendar
 } from 'lucide-react';
 import { useState } from 'react';
+
+// Shared Components
+import { GlassCard } from '../../components/shared/GlassCard';
+import { PageHeader } from '../../components/shared/PageHeader';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.05 }
+  }
+};
+
+const itemVariants = {
+  hidden: { scale: 0.95, opacity: 0 },
+  visible: { 
+    scale: 1, 
+    opacity: 1,
+    transition: { type: "spring", stiffness: 150, damping: 20 }
+  }
+};
 
 export default function CustomersList() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,123 +55,137 @@ export default function CustomersList() {
     cust.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (
-    <div className="flex flex-col gap-lg max-w-container-max mx-auto w-full">
-      {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-headline-lg font-headline-lg text-primary mb-1">Manajemen Pelanggan</h1>
-          <p className="text-body-sm text-on-surface-variant uppercase tracking-widest font-label-caps">Database Pelanggan PT SAFANET DIGITAL NETWORKING</p>
-        </div>
-        <div className="flex gap-3">
-          <button className="bg-primary-fixed text-[#0e1512] px-4 py-2 rounded-lg text-body-sm font-semibold hover:shadow-[0_0_15px_rgba(95,251,214,0.4)] transition-all flex items-center gap-2">
-            <UserPlus size={18} />
-            Tambah Pelanggan
-          </button>
-        </div>
-      </div>
+  const headerActions = (
+    <button className="bg-primary-fixed text-[#0e1512] px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:shadow-[0_0_20px_rgba(95,251,214,0.3)] transition-all flex items-center gap-2">
+      <UserPlus size={18} /> Add New Partner
+    </button>
+  );
 
-      {/* Stats Quick View */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-md">
+  return (
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="flex flex-col gap-8 max-w-container-max mx-auto w-full pb-20 px-4 md:px-0"
+    >
+      <PageHeader 
+        title="CUSTOMER DIRECTORY" 
+        subtitle="Global Partner Database • Active Subscriber Units" 
+        actions={headerActions} 
+      />
+
+      {/* Stats Summary Panel */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'Total Pelanggan', value: '1.240', color: 'text-primary' },
-          { label: 'Pelanggan Aktif', value: '1.180', color: 'text-primary-fixed' },
-          { label: 'Isolir / Inaktif', value: '45', color: 'text-error' },
-          { label: 'New This Month', value: '+12', color: 'text-primary-fixed' },
+          { label: 'Total Base', value: '1,240', color: 'text-white' },
+          { label: 'Verified Active', value: '1,180', color: 'text-primary-fixed' },
+          { label: 'Deactivated', value: '45', color: 'text-red-400' },
+          { label: 'Monthly Growth', value: '+12', color: 'text-primary-fixed' },
         ].map((stat, i) => (
-          <div key={i} className="bg-[#1a211f]/60 border border-outline-variant/20 p-4 rounded-xl">
-            <p className="text-[10px] font-label-caps text-on-surface-variant uppercase mb-1 tracking-wider">{stat.label}</p>
-            <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
-          </div>
+          <motion.div key={i} variants={itemVariants}>
+            <GlassCard className="p-5 border border-white/5 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 blur-3xl rounded-full -mr-12 -mt-12 group-hover:bg-primary-fixed/5 transition-colors"></div>
+              <p className="text-[9px] font-black text-white/40 uppercase mb-1 tracking-[0.2em]">{stat.label}</p>
+              <p className={`text-2xl font-black tracking-tighter ${stat.color}`}>{stat.value}</p>
+            </GlassCard>
+          </motion.div>
         ))}
       </div>
 
-      {/* Filter & Search Bar */}
-      <div className="bg-[#1a211f]/60 backdrop-blur-md border border-outline-variant/20 p-4 rounded-xl flex flex-col md:flex-row gap-4 items-center">
-        <div className="relative flex-grow w-full">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50" />
+      {/* Advanced Filter Bar */}
+      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        <div className="md:col-span-6 relative group">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-fixed transition-colors" />
           <input 
             type="text" 
-            placeholder="Cari Nama, ID, atau No HP..." 
-            className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:border-primary-fixed/50 outline-none transition-all"
+            placeholder="Filter by Name, ID, or Contact Number..." 
+            className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-sm outline-none focus:border-primary-fixed/50 transition-all font-medium placeholder:text-white/10"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex gap-2 w-full md:w-auto">
-          <button className="flex-1 md:flex-none flex items-center gap-2 bg-surface-container border border-outline-variant/30 px-4 py-2.5 rounded-lg text-body-sm hover:bg-surface-variant transition-all">
-            <Filter size={18} />
-            Semua Paket
-          </button>
-          <button className="flex-1 md:flex-none flex items-center gap-2 bg-surface-container border border-outline-variant/30 px-4 py-2.5 rounded-lg text-body-sm hover:bg-surface-variant transition-all">
-            <CheckCircle2 size={18} />
-            Status Aktif
+        <div className="md:col-span-3">
+          <button className="w-full flex items-center justify-between bg-white/5 border border-white/10 px-5 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white/60 hover:bg-white/10 transition-all">
+            <div className="flex items-center gap-2"><Filter size={16} /> Plan Type</div>
+            <ChevronRight size={14} />
           </button>
         </div>
-      </div>
+        <div className="md:col-span-3">
+          <button className="w-full flex items-center justify-between bg-white/5 border border-white/10 px-5 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white/60 hover:bg-white/10 transition-all">
+            <div className="flex items-center gap-2"><ShieldCheck size={16} /> Subscription</div>
+            <ChevronRight size={14} />
+          </button>
+        </div>
+      </motion.div>
 
-      {/* Customers Grid/List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+      {/* Partner Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCustomers.map((cust, idx) => (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: idx * 0.05 }}
+            variants={itemVariants}
             key={cust.id}
-            className="bg-[#1a211f]/80 backdrop-blur-md border border-outline-variant/30 rounded-2xl p-6 hover:border-primary-fixed/30 transition-all group relative overflow-hidden shadow-xl"
+            className="group relative"
           >
-            <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button className="text-on-surface-variant hover:text-primary">
-                <MoreVertical size={20} />
-              </button>
-            </div>
-
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-14 h-14 rounded-2xl bg-surface-container-high border border-outline-variant/30 flex items-center justify-center text-primary-fixed">
-                <Users size={28} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-bold text-primary truncate uppercase">{cust.name}</h3>
-                  {cust.status === 'Active' ? (
-                    <div className="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_8px_rgba(95,251,214,0.6)]"></div>
-                  ) : (
-                    <div className="w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(255,180,171,0.6)]"></div>
-                  )}
+            <div className="absolute inset-0 bg-primary-fixed/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <GlassCard className="p-8 border border-white/5 relative z-10 transition-all group-hover:border-primary-fixed/20">
+              <div className="flex justify-between items-start mb-8">
+                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary-fixed group-hover:bg-primary-fixed group-hover:text-[#0e1512] transition-all shadow-xl">
+                  <Users size={32} />
                 </div>
-                <p className="text-[10px] font-mono text-primary-fixed/70 font-bold uppercase tracking-widest">{cust.id}</p>
+                <div className="flex flex-col items-end">
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
+                    cust.status === 'Active' ? 'bg-primary-fixed/10 text-primary-fixed' : 'bg-red-500/10 text-red-400'
+                  }`}>
+                    <div className={`w-1 h-1 rounded-full animate-pulse ${cust.status === 'Active' ? 'bg-primary-fixed' : 'bg-red-400'}`}></div>
+                    {cust.status}
+                  </span>
+                  <span className="text-[10px] font-mono text-white/20 font-black tracking-widest mt-2 uppercase">{cust.id}</span>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <MapPin size={14} className="text-on-surface-variant mt-1 shrink-0" />
-                <p className="text-body-sm text-on-surface-variant line-clamp-2">{cust.address}</p>
+              <div className="mb-8">
+                <h3 className="text-xl font-black text-white uppercase tracking-tight mb-2 group-hover:text-primary-fixed transition-colors line-clamp-1">{cust.name}</h3>
+                <div className="flex items-start gap-2 text-white/40">
+                  <MapPin size={12} className="mt-1 shrink-0" />
+                  <p className="text-[11px] font-medium leading-relaxed line-clamp-2 uppercase tracking-tight">{cust.address}</p>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <Phone size={14} className="text-on-surface-variant shrink-0" />
-                <p className="text-body-sm text-on-surface">{cust.phone}</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Package size={14} className="text-on-surface-variant shrink-0" />
-                <span className="text-xs font-bold bg-primary-fixed/10 text-primary-fixed px-2 py-0.5 rounded border border-primary-fixed/20">{cust.package}</span>
-              </div>
-            </div>
 
-            <div className="mt-6 pt-6 border-t border-outline-variant/20 flex justify-between items-center">
-              <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold opacity-60">Terdaftar: {cust.since}</p>
-              <div className="flex gap-2">
-                <button className="p-2 bg-surface-container border border-outline-variant/30 rounded-lg text-on-surface-variant hover:text-primary-fixed transition-all" title="Email">
-                  <Mail size={16} />
-                </button>
-                <button className="p-2 bg-primary-fixed text-[#0e1512] rounded-lg font-bold text-xs px-3 hover:shadow-[0_0_10px_rgba(95,251,214,0.3)] transition-all">
-                  Detail
-                </button>
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="bg-white/[0.03] border border-white/5 p-3 rounded-xl">
+                  <p className="text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">Contact Unit</p>
+                  <div className="flex items-center gap-2">
+                    <Phone size={10} className="text-primary-fixed" />
+                    <span className="text-[10px] font-bold text-white/80">{cust.phone}</span>
+                  </div>
+                </div>
+                <div className="bg-white/[0.03] border border-white/5 p-3 rounded-xl">
+                  <p className="text-[8px] font-black text-white/20 uppercase tracking-widest mb-1">Service Plan</p>
+                  <div className="flex items-center gap-2">
+                    <Globe size={10} className="text-primary-fixed" />
+                    <span className="text-[10px] font-bold text-white/80 uppercase">{cust.package}</span>
+                  </div>
+                </div>
               </div>
-            </div>
+
+              <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                <div className="flex items-center gap-2 text-white/20">
+                  <Calendar size={12} />
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em]">{cust.since}</span>
+                </div>
+                <div className="flex gap-2">
+                  <button className="p-2.5 bg-white/5 border border-white/5 rounded-xl text-white/40 hover:text-white transition-all">
+                    <Mail size={16} />
+                  </button>
+                  <button className="px-5 py-2.5 bg-primary-fixed text-[#0e1512] rounded-xl font-black text-[10px] uppercase tracking-widest hover:shadow-[0_0_15px_rgba(95,251,214,0.3)] transition-all flex items-center gap-2">
+                    Profile <ChevronRight size={14} />
+                  </button>
+                </div>
+              </div>
+            </GlassCard>
           </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

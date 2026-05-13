@@ -19,8 +19,9 @@ export default function Navbar() {
   return (
     <nav className="bg-[#1a211f]/80 text-primary-fixed font-body-md text-body-md fixed top-0 w-full z-50 border-b border-white/5 backdrop-blur-md shadow-sm">
       <div className="max-w-container-max mx-auto px-gutter flex justify-between items-center h-20">
-        <Link to="/" className="text-2xl font-bold tracking-tighter text-primary hover:opacity-80 transition-opacity">
-          Monivexa
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <img src="/assets/logo_monivexa.png" alt="Monivexa Logo" className="h-10 w-auto" />
+          <span className="text-2xl font-black text-primary tracking-tighter uppercase">Monivexa</span>
         </Link>
 
         {/* Desktop Links */}

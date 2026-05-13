@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowLeft, User, Lock, BadgeCheck, Loader2, ArrowRight, ShieldPlus } from 'lucide-react';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -30,136 +31,124 @@ export default function RegisterPage() {
         setSuccess(data.message);
         setTimeout(() => navigate('/login'), 2000);
       } else {
-        setError(data.message || 'Registrasi gagal.');
+        setError(data.message || 'Registration failed.');
       }
     } catch (err) {
-      setError('Gagal menghubungi server. Pastikan backend aktif.');
+      setError('Connection refused. Ensure the backend engine is running.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-background text-on-surface min-h-screen flex flex-col relative overflow-hidden w-full">
-      {/* Background Image & Overlay */}
+    <div className="bg-[#0a0f0d] text-white min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Dynamic Background Elements */}
       <div className="absolute inset-0 z-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center grayscale opacity-40" 
-          style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBW45SRSqPLWCBzt1x2sJR01UhyvLJyRNinMPSyEL6xYoQV2D2ixRWu5jjjFrgfao4EnuxVSIOsUvYVWxaVvsMgaiRsMFsnSfSMfEGPk2PiiKI6LjenSGwneF2R1cf5hdF0FLaEr_LOQEaDZeP81AnQNEZfrRFhZTiOVNjoLWPGklbkg8a2t-C96em7GMmUrVl29MZjTo9B7MhKAgp-AaV4eO7oEr_c356FvOmlsQ-rB2H3cqs2m3FjQWkEmgru4DzFDsNazhYOmxA')" }}
-        ></div>
-        <div className="absolute inset-0 bg-[#0e1512]/90"></div>
-        <div className="absolute inset-0 network-grid pointer-events-none opacity-20"></div>
+        <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-600/10 blur-[150px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-fixed/5 blur-[120px] rounded-full"></div>
+        <div className="absolute inset-0 network-grid opacity-20"></div>
       </div>
 
-      {/* Main Content Canvas */}
-      <main className="relative z-10 flex-grow flex items-center justify-center p-gutter flex-col">
-        <div className="w-full max-w-[480px] flex flex-col gap-4">
-          <button 
-            onClick={() => navigate('/login')}
-            className="flex items-center gap-2 text-on-surface-variant hover:text-primary-fixed transition-colors w-fit group"
-          >
-            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="font-body-sm">Kembali ke Login</span>
-          </button>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-[500px] relative z-10"
+      >
+        <button 
+          onClick={() => navigate('/login')}
+          className="flex items-center gap-2 text-on-surface-variant hover:text-primary-fixed transition-colors mb-8 group"
+        >
+          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-xs font-black uppercase tracking-[0.2em]">Kembali Ke Login</span>
+        </button>
 
-          {/* Register Card */}
-          <div className="glass-card rounded-2xl shadow-2xl p-lg flex flex-col gap-lg border border-white/5 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-30"></div>
-            {/* Header */}
-            <div className="text-center">
-              <h1 className="font-headline-lg text-headline-lg text-on-surface mb-xs">Create Account</h1>
-              <p className="font-body-md text-body-md text-on-surface-variant">Join the Monivexa Infrastructure Network</p>
+        <div className="glass-card rounded-[2.5rem] border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
+          <div className="bg-gradient-to-b from-white/[0.05] to-transparent p-10 md:p-14">
+            <div className="text-center mb-10">
+              <div className="w-20 h-20 rounded-3xl bg-primary-fixed/10 flex items-center justify-center text-primary-fixed mx-auto mb-8 shadow-xl border border-primary-fixed/20">
+                <img src="/assets/logo_monivexa.png" alt="Logo" className="h-10 w-auto opacity-50" />
+              </div>
+              <h1 className="text-3xl font-black tracking-tight mb-2 uppercase italic">Account Creation</h1>
+              <p className="text-on-surface-variant font-medium text-sm opacity-60">Inisialisasi identitas operator Anda</p>
             </div>
-            <div className="h-px w-full bg-outline-variant"></div>
 
-            <form className="flex flex-col gap-md" onSubmit={handleSubmit}>
-              {error && (
-                <div className="bg-error/10 border border-error/20 text-error text-xs p-3 rounded flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">error</span>
-                  {error}
-                </div>
-              )}
-              {success && (
-                <div className="bg-primary-fixed/10 border border-primary-fixed/20 text-primary-fixed text-xs p-3 rounded flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">check_circle</span>
-                  {success}
-                </div>
-              )}
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs p-4 rounded-2xl mb-8">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="bg-primary-fixed/10 border border-primary-fixed/20 text-primary-fixed text-xs p-4 rounded-2xl mb-8 flex items-center gap-3">
+                <BadgeCheck size={18} />
+                {success}
+              </div>
+            )}
 
-              {/* Full Name Field */}
-              <div className="flex flex-col gap-xs">
-                <label className="font-label-caps text-label-caps text-on-surface-variant">Full Name</label>
-                <div className="relative">
-                  <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant" style={{ fontSize: '20px' }}>badge</span>
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant ml-2">Nama Lengkap</label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-fixed transition-colors" size={20} />
                   <input 
-                    className="w-full bg-surface-container/50 border border-outline-variant rounded-DEFAULT text-on-surface font-body-md text-body-md py-sm pl-xl pr-sm focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed transition-colors placeholder:text-outline outline-none" 
-                    placeholder="Nama Lengkap Anda" 
                     type="text"
+                    required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    required
+                    placeholder="Masukkan Nama Lengkap"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-primary-fixed/50 transition-all font-medium placeholder:text-white/10"
                   />
                 </div>
               </div>
 
-              {/* Username Field */}
-              <div className="flex flex-col gap-xs">
-                <label className="font-label-caps text-label-caps text-on-surface-variant">Username</label>
-                <div className="relative">
-                  <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant" style={{ fontSize: '20px' }}>person</span>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant ml-2">ID Operator (Username)</label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-fixed transition-colors" size={20} />
                   <input 
-                    className="w-full bg-surface-container/50 border border-outline-variant rounded-DEFAULT text-on-surface font-body-md text-body-md py-sm pl-xl pr-sm focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed transition-colors placeholder:text-outline outline-none" 
-                    placeholder="Pilih ID Unik" 
                     type="text"
+                    required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    required
+                    placeholder="Pilih Username"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-primary-fixed/50 transition-all font-medium placeholder:text-white/10"
                   />
                 </div>
               </div>
-              
-              {/* Password Field */}
-              <div className="flex flex-col gap-xs">
-                <label className="font-label-caps text-label-caps text-on-surface-variant">Password</label>
-                <div className="relative">
-                  <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant" style={{ fontSize: '20px' }}>lock</span>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant ml-2">Kunci Keamanan (Password)</label>
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-fixed transition-colors" size={20} />
                   <input 
-                    className="w-full bg-surface-container/50 border border-outline-variant rounded-DEFAULT text-on-surface font-body-md text-body-md py-sm pl-xl pr-sm focus:border-primary-fixed focus:ring-1 focus:ring-primary-fixed transition-colors placeholder:text-outline outline-none" 
-                    placeholder="Buat Password Aman" 
                     type="password"
+                    required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    placeholder="Buat Password Aman"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-primary-fixed/50 transition-all font-medium placeholder:text-white/10"
                   />
                 </div>
               </div>
-              
-              {/* Action Button */}
+
               <button 
                 disabled={loading}
-                className="w-full bg-primary-fixed text-[#0e1512] font-headline-md text-body-lg font-semibold py-sm rounded-DEFAULT hover:shadow-[0px_0px_12px_rgba(100,255,214,0.4)] transition-all mt-sm flex justify-center items-center gap-xs disabled:opacity-50 disabled:cursor-not-allowed" 
-                type="submit"
+                className="w-full relative group bg-white text-black font-black py-5 rounded-2xl overflow-hidden hover:bg-primary-fixed transition-all hover:shadow-[0_20px_40px_-10px_rgba(100,255,214,0.3)] active:scale-95 disabled:opacity-50 mt-6 uppercase tracking-[0.2em] text-sm"
               >
-                {loading ? 'Creating Account...' : 'Register Account'}
-                {!loading && <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person_add</span>}
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  {loading ? <Loader2 className="animate-spin" /> : 'Buat Identitas'}
+                  {!loading && <ArrowRight size={18} />}
+                </span>
               </button>
             </form>
-            
-            {/* Footer Links */}
-            <div className="text-center pt-sm">
-              <p className="font-body-sm text-body-sm text-on-surface-variant">
-                Already have an account? <Link to="/login" className="text-primary-fixed-dim hover:text-primary-fixed transition-colors font-medium">Login here</Link>
+
+            <div className="mt-10 pt-8 border-t border-white/5 text-center">
+              <p className="text-on-surface-variant text-sm font-medium opacity-60">
+                Sudah terdaftar? <Link to="/login" className="text-primary-fixed hover:underline">Masuk ke Login</Link>
               </p>
             </div>
           </div>
-
-          {/* Connection Status */}
-          <div className="mt-md flex justify-center items-center gap-xs">
-            <div className="w-2 h-2 rounded-full bg-primary-fixed shadow-[0px_0px_8px_rgba(100,255,218,0.6)]"></div>
-            <span className="font-label-caps text-label-caps text-on-surface-variant opacity-80 uppercase tracking-widest">Global Network Online</span>
-          </div>
         </div>
-      </main>
+      </motion.div>
     </div>
   );
 }

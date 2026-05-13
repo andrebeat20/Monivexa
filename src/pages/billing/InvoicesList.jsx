@@ -9,15 +9,33 @@ import {
   Eye, 
   Calendar,
   Printer,
-  Mail
+  Mail,
+  ChevronRight,
+  ArrowUpRight
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Shared Components
 import { GlassCard } from '../../components/shared/GlassCard';
-import { StatusBadge } from '../../components/shared/StatusBadge';
 import { PageHeader } from '../../components/shared/PageHeader';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.05 }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 15, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { type: "spring", stiffness: 150, damping: 20 }
+  }
+};
 
 export default function InvoicesList() {
   const navigate = useNavigate();
@@ -33,120 +51,130 @@ export default function InvoicesList() {
   ];
 
   const headerActions = (
-    <>
-      <button className="bg-surface-container border border-outline-variant/30 text-on-surface px-4 py-2 rounded-lg text-body-sm font-medium hover:bg-surface-variant transition-all flex items-center gap-2">
-        <Download size={18} /> Export CSV
+    <div className="flex gap-4">
+      <button className="hidden md:flex bg-white/5 border border-white/10 text-white/60 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all items-center gap-2">
+        <Download size={16} /> Export CSV
       </button>
-      <button className="bg-primary-fixed text-[#0e1512] px-4 py-2 rounded-lg text-body-sm font-semibold hover:shadow-[0_0_15px_rgba(95,251,214,0.4)] transition-all flex items-center gap-2">
-        <Plus size={18} /> Buat Invoice
+      <button className="bg-primary-fixed text-[#0e1512] px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:shadow-[0_0_20px_rgba(95,251,214,0.3)] transition-all flex items-center gap-2">
+        <Plus size={18} /> New Invoice
       </button>
-    </>
+    </div>
   );
 
   return (
-    <div className="flex flex-col gap-lg max-w-container-max mx-auto w-full pb-20">
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="flex flex-col gap-8 max-w-container-max mx-auto w-full pb-20 px-4 md:px-0"
+    >
       <PageHeader 
-        title="Daftar Invoice" 
-        subtitle="Manajemen Penagihan Pelanggan" 
+        title="INVOICE LEDGER" 
+        subtitle="Comprehensive Billing History and Status" 
         actions={headerActions} 
       />
 
-      <div className="bg-[#1a211f]/60 border border-outline-variant/20 p-4 rounded-xl flex flex-col md:flex-row gap-4 items-center">
-        <div className="relative flex-grow w-full">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50" />
+      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        <div className="md:col-span-6 relative group">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary-fixed transition-colors" />
           <input 
             type="text" 
-            placeholder="Cari No Invoice atau Nama Pelanggan..." 
-            className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:border-primary-fixed/50 outline-none transition-all"
+            placeholder="Search by ID or Customer Name..." 
+            className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-sm outline-none focus:border-primary-fixed/50 transition-all font-medium placeholder:text-white/10"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex gap-2 w-full md:w-auto">
-          <button className="flex-1 md:flex-none flex items-center gap-2 bg-surface-container border border-outline-variant/30 px-4 py-2.5 rounded-lg text-body-sm hover:bg-surface-variant transition-all font-bold uppercase tracking-widest text-[10px]">
-            <Filter size={16} /> Filter Status
-          </button>
-          <button className="flex-1 md:flex-none flex items-center gap-2 bg-surface-container border border-outline-variant/30 px-4 py-2.5 rounded-lg text-body-sm hover:bg-surface-variant transition-all font-bold uppercase tracking-widest text-[10px]">
-            <Calendar size={16} /> Periode
+        <div className="md:col-span-3">
+          <button className="w-full flex items-center justify-between bg-white/5 border border-white/10 px-5 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest text-white/60 hover:bg-white/10 transition-all">
+            <div className="flex items-center gap-2"><Filter size={16} /> Status Filter</div>
+            <ChevronRight size={14} />
           </button>
         </div>
-      </div>
+        <div className="md:col-span-3">
+          <button className="w-full flex items-center justify-between bg-white/5 border border-white/10 px-5 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest text-white/60 hover:bg-white/10 transition-all">
+            <div className="flex items-center gap-2"><Calendar size={16} /> Period Select</div>
+            <ChevronRight size={14} />
+          </button>
+        </div>
+      </motion.div>
 
-      <GlassCard className="overflow-hidden shadow-2xl" hover={false}>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-surface-container-low border-b border-outline-variant/20">
-                <th className="px-6 py-4 text-label-caps text-on-surface-variant font-medium uppercase tracking-widest">NO INVOICE</th>
-                <th className="px-6 py-4 text-label-caps text-on-surface-variant font-medium uppercase tracking-widest">PELANGGAN / PAKET</th>
-                <th className="px-6 py-4 text-label-caps text-on-surface-variant font-medium uppercase tracking-widest text-right">TOTAL (RP)</th>
-                <th className="px-6 py-4 text-label-caps text-on-surface-variant font-medium uppercase tracking-widest text-center">JATUH TEMPO</th>
-                <th className="px-6 py-4 text-label-caps text-on-surface-variant font-medium uppercase tracking-widest">STATUS</th>
-                <th className="px-6 py-4 text-label-caps text-on-surface-variant font-medium text-center">AKSI</th>
-              </tr>
-            </thead>
-            <tbody className="text-body-sm divide-y divide-outline-variant/10">
-              {invoices.map((inv, idx) => (
-                <motion.tr 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.05 }}
-                  key={inv.id} 
-                  className="hover:bg-surface-container-low/50 transition-colors group cursor-pointer"
-                  onClick={() => navigate(`/billing/invoice/${inv.id}`)}
-                >
-                  <td className="px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-white/5 rounded-lg text-primary-fixed">
-                        <Receipt size={16} />
+      <motion.div variants={itemVariants}>
+        <GlassCard className="overflow-hidden border border-white/5 shadow-2xl" hover={false}>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-white/[0.02] border-b border-white/5">
+                  <th className="px-8 py-5 text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">Transaction ID</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">Customer Identity</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] text-right">Total Amount</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] text-center">Due Deadline</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">Status</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] text-center">Control</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.03]">
+                {invoices.map((inv, idx) => (
+                  <tr 
+                    key={inv.id} 
+                    className="hover:bg-white/[0.02] transition-colors group cursor-pointer"
+                    onClick={() => navigate(`/billing/invoice/${inv.id}`)}
+                  >
+                    <td className="px-8 py-6">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-white/5 rounded-xl text-primary-fixed group-hover:bg-primary-fixed group-hover:text-[#0e1512] transition-all">
+                          <Receipt size={16} />
+                        </div>
+                        <span className="font-mono text-[11px] text-primary-fixed font-bold tracking-tight">{inv.id}</span>
                       </div>
-                      <span className="font-mono text-primary-fixed font-bold tracking-tight">{inv.id}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-5">
-                    <div className="flex flex-col">
-                      <p className="text-primary font-bold uppercase tracking-tight">{inv.name}</p>
-                      <span className="text-[10px] text-on-surface-variant opacity-70 tracking-wider">{inv.product}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-5 text-right font-mono text-on-surface font-bold text-base">{inv.price}</td>
-                  <td className="px-6 py-5 text-center">
-                    <div className="flex flex-col items-center">
-                      <span className="text-on-surface font-medium">{inv.due}</span>
-                      <span className="text-[9px] text-on-surface-variant uppercase tracking-tighter">Created: {inv.date}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-5">
-                    <StatusBadge status={inv.status === 'Paid' ? 'Lunas' : 'Belum Lunas'} type={inv.status === 'Paid' ? 'success' : 'error'} />
-                  </td>
-                  <td className="px-6 py-5 text-center">
-                    <div className="flex justify-center gap-2">
-                      <button className="p-2 text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant rounded-lg transition-all border border-outline-variant/10">
-                        <Printer size={18} />
-                      </button>
-                      <button className="p-2 text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant rounded-lg transition-all border border-outline-variant/10">
-                        <Mail size={18} />
-                      </button>
-                      <button className="p-2 text-on-surface-variant hover:text-primary transition-all">
-                        <MoreVertical size={18} />
-                      </button>
-                    </div>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </GlassCard>
+                    </td>
+                    <td className="px-8 py-6">
+                      <div className="flex flex-col">
+                        <p className="text-white font-black uppercase tracking-tight mb-1">{inv.name}</p>
+                        <span className="text-[9px] text-white/30 font-black uppercase tracking-widest">{inv.product}</span>
+                      </div>
+                    </td>
+                    <td className="px-8 py-6 text-right font-mono text-white font-bold text-base">Rp {inv.price}</td>
+                    <td className="px-8 py-6 text-center">
+                      <div className="flex flex-col items-center">
+                        <span className="text-white text-xs font-bold">{inv.due}</span>
+                        <span className="text-[9px] text-white/20 font-black uppercase tracking-tighter mt-1">Issued: {inv.date}</span>
+                      </div>
+                    </td>
+                    <td className="px-8 py-6">
+                      <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
+                        inv.status === 'Paid' ? 'bg-primary-fixed/10 text-primary-fixed' : 'bg-red-500/10 text-red-400'
+                      }`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${inv.status === 'Paid' ? 'bg-primary-fixed' : 'bg-red-400'}`}></div>
+                        {inv.status}
+                      </span>
+                    </td>
+                    <td className="px-8 py-6 text-center">
+                      <div className="flex justify-center gap-2 opacity-20 group-hover:opacity-100 transition-opacity">
+                        <button className="p-2.5 text-white hover:text-primary-fixed hover:bg-white/10 rounded-xl transition-all border border-white/5">
+                          <Printer size={16} />
+                        </button>
+                        <button className="p-2.5 text-white hover:text-primary-fixed hover:bg-white/10 rounded-xl transition-all border border-white/5">
+                          <Mail size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </GlassCard>
+      </motion.div>
 
-      {/* Pagination */}
-      <div className="flex items-center justify-between mt-4 px-2">
-        <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest opacity-60">Page 1 of 24 • Total 142 Invoices</p>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary border border-outline-variant/20 rounded-lg transition-all">Prev</button>
-          <button className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary-fixed border border-primary-fixed/20 bg-primary-fixed/5 rounded-lg transition-all shadow-[0_0_10px_rgba(95,251,214,0.1)]">Next</button>
+      {/* Pagination Container */}
+      <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+        <p className="text-[10px] text-white/30 font-black uppercase tracking-[0.3em]">Records: 1 - 6 of 142 • Active Ledger</p>
+        <div className="flex gap-3">
+          <button className="px-6 py-3 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white border border-white/10 rounded-xl transition-all bg-white/5">Previous Page</button>
+          <button className="px-6 py-3 text-[10px] font-black uppercase tracking-widest text-[#0e1512] bg-primary-fixed rounded-xl transition-all shadow-lg shadow-primary-fixed/20">Next Section</button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

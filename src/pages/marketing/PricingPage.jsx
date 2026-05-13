@@ -1,160 +1,249 @@
-import { useNavigate, Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { CheckCircle2, Zap, ShieldCheck, Globe, Star, ArrowRight, Clock, Award, Settings } from 'lucide-react';
+import Navbar from '../../components/Navbar';
 
 export default function PricingPage() {
   const navigate = useNavigate();
 
-  const pricingTiers = [
+  const plans = [
     {
-      name: 'FREE / DEMO',
-      price: 'Rp 0',
-      description: 'Ideal untuk pengujian awal dan skala kecil.',
+      name: "DEMO",
+      price: "FREE",
+      period: "Trial 3 Hari",
+      desc: "Uji coba akses penuh sistem sebelum berlangganan resmi.",
       features: [
-        { label: 'Kapasitas', value: 'Maks. 20 Pelanggan' },
-        { label: 'Billing', value: 'Manual Input' },
-        { label: 'GIS Map', value: 'Titik Rumah Saja' },
-        { label: 'Monitoring', value: 'Tidak Ada' },
+        "Akses Semua Fitur Pro",
+        "Masa Aktif 3 Hari",
+        "Full System Access",
+        "Community Support"
       ],
-      buttonText: 'Mulai Sekarang',
-      highlighted: false,
-      color: 'text-on-surface-variant'
+      color: "border-white/5",
+      highlight: false,
+      setupFee: null
     },
     {
-      name: 'STANDARD',
-      price: 'Rp 350rb - 500rb',
-      description: 'Solusi optimal untuk ISP berkembang.',
+      name: "STARTER",
+      price: "400K",
+      period: "/bulan",
+      desc: "Fokus pada efisiensi Billing dan Manajemen Pelanggan.",
       features: [
-        { label: 'Kapasitas', value: 'Maks. 300 Pelanggan' },
-        { label: 'Billing', value: 'Otomatis via WA' },
-        { label: 'GIS Map', value: 'Rumah & ODP' },
-        { label: 'Monitoring', value: 'Tidak Ada' },
+        "Maks. 100 User",
+        "Billing Otomatis",
+        "WhatsApp Gateway",
+        "Manajemen Pelanggan",
+        "Laporan Dasar"
       ],
-      buttonText: 'Pilih Standard',
-      highlighted: true,
-      color: 'text-primary-fixed'
+      color: "border-white/5",
+      highlight: false,
+      setupFee: null
     },
     {
-      name: 'PRO',
-      price: 'Rp 1jt - 1.5jt',
-      description: 'Performa maksimal untuk infrastruktur skala besar.',
+      name: "STANDARD",
+      price: "550K",
+      period: "/bulan",
+      desc: "Solusi lengkap untuk manajemen stok dan pemetaan.",
       features: [
-        { label: 'Kapasitas', value: 'Unlimited' },
-        { label: 'Billing', value: 'Auto + Payment Gateway' },
-        { label: 'GIS Map', value: 'Full Topology (Garis Kabel)' },
-        { label: 'Monitoring', value: 'Real-time OLT (SNMP)' },
+        "Maks. 500 User",
+        "Semua Fitur Starter",
+        "Stock Inventaris",
+        "GIS Titik Rumah",
+        "Multi-Warehouse Support"
       ],
-      buttonText: 'Pilih Pro',
-      highlighted: false,
-      color: 'text-tertiary-fixed'
+      color: "border-primary-fixed/30",
+      highlight: true,
+      setupFee: null
+    },
+    {
+      name: "PRO",
+      price: "1.0M",
+      period: "/bulan",
+      desc: "Monitoring total dan manajemen topologi jaringan penuh.",
+      features: [
+        "Unlimited User",
+        "Semua Fitur Standard",
+        "Full Monitoring OLT (SNMP)",
+        "Full Topology (Garis Kabel)",
+        "Priority Support 24/7"
+      ],
+      color: "border-primary-fixed",
+      highlight: false,
+      setupFee: "500.000"
+    },
+    {
+      name: "CUSTOM",
+      price: "1.5M",
+      period: "/bulan",
+      desc: "Eksklusivitas total dengan branding dan API khusus.",
+      features: [
+        "Semua Fitur Pro",
+        "White-label (Logo Sendiri)",
+        "Custom API Integration",
+        "Dedicated Server Instance",
+        "Enterprise Consulting"
+      ],
+      color: "border-white/5",
+      highlight: false,
+      setupFee: "500.000"
     }
   ];
 
   return (
-    <div className="bg-transparent text-on-surface font-body-md min-h-screen flex flex-col relative w-full">
+    <div className="bg-[#0a0f0d] text-white min-h-screen selection:bg-primary-fixed/30 selection:text-primary-fixed overflow-x-hidden">
       <Navbar />
+      
+      {/* Pricing Hero */}
+      <section className="relative pt-40 pb-24 px-gutter overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-primary-fixed/10 blur-[150px] rounded-full opacity-50"></div>
+        
+        <div className="max-w-container-max mx-auto text-center relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
+          >
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-fixed italic">No Forever Free - Quality First</span>
+          </motion.div>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-6xl md:text-8xl font-black tracking-tighter leading-none mb-8 uppercase"
+          >
+            CHOOSE YOUR <span className="text-primary-fixed italic font-serif">PLAN</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto font-medium opacity-70"
+          >
+            Sistem eksklusif untuk menjaga kualitas layanan ISP Anda. Pilih paket yang sesuai dengan skala bisnis Anda.
+          </motion.p>
+        </div>
+      </section>
 
-      {/* Main Content */}
-      <main className="flex-grow pt-xl relative z-10">
-        {/* Hero Section */}
-        <section className="max-w-container-max mx-auto px-gutter pt-24 pb-lg text-center">
-          <h1 className="text-4xl md:text-7xl font-extrabold text-primary mb-6 tracking-tighter leading-tight">
-            Investasi Jaringan, <br/>
-            <span className="text-primary-fixed">Sesuai Skala Anda.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed opacity-90">
-            Pilih paket yang tepat untuk operasional ISP Anda. Dari demo gratis hingga kontrol infrastruktur penuh.
-          </p>
-        </section>
-
-        {/* Pricing Cards */}
-        <section className="max-w-container-max mx-auto px-gutter pb-xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
-            {pricingTiers.map((tier, idx) => (
-              <div 
-                key={idx} 
-                className={`glass-card rounded-2xl p-8 flex flex-col relative border-white/5 transition-all duration-500 group ${tier.highlighted ? 'h-[105%] border-primary-fixed/30 shadow-[0_20px_50px_rgba(95,251,214,0.1)]' : 'h-full hover:border-primary-fixed/20'}`}
+      {/* Pricing Grid */}
+      <section className="py-12 pb-32 px-gutter relative">
+        <div className="max-w-container-max mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {plans.map((plan, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                whileHover={{ y: -10 }}
+                className={`glass-card p-0.5 rounded-[2.5rem] border ${plan.color} relative overflow-hidden flex flex-col group`}
               >
-                {tier.highlighted && (
-                  <div className="absolute top-0 right-0 bg-primary-fixed text-[#0e1512] text-[10px] px-4 py-1.5 rounded-bl-2xl font-bold tracking-widest uppercase">REKOMENDASI</div>
+                {plan.highlight && (
+                  <div className="absolute top-8 right-[-35px] bg-primary-fixed text-black py-1 px-10 rotate-45 text-[8px] font-black uppercase tracking-widest z-20">
+                    Most Popular
+                  </div>
                 )}
-                <div className="mb-8">
-                  <span className={`text-[10px] font-bold uppercase tracking-widest ${tier.color} bg-white/5 px-3 py-1 rounded-full inline-block mb-4`}>{tier.name}</span>
-                  <h2 className="text-3xl font-bold text-primary mb-4 leading-none">{tier.price}</h2>
-                  <p className="text-sm text-on-surface-variant mt-2 leading-relaxed opacity-80">{tier.description}</p>
-                </div>
                 
-                <div className="border-t border-white/5 pt-6 mb-8 flex-grow">
-                  <ul className="space-y-4">
-                    {tier.features.map((feature, fIdx) => (
-                      <li key={fIdx} className="flex flex-col gap-1">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60">{feature.label}</span>
-                        <div className="flex items-center gap-2">
-                          {feature.value === 'Tidak Ada' ? (
-                            <span className="material-symbols-outlined text-on-surface-variant/30 text-[18px]">cancel</span>
-                          ) : (
-                            <span className="material-symbols-outlined text-primary-fixed text-[18px]">check_circle</span>
-                          )}
-                          <span className={`text-sm ${feature.value === 'Tidak Ada' ? 'text-on-surface-variant/40' : 'text-on-surface font-medium'}`}>{feature.value}</span>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <div className="bg-[#0e1512] rounded-[2.4rem] p-8 flex flex-col h-full relative z-10 border border-white/5">
+                  <div className="mb-8">
+                    <h3 className="text-xl font-black text-white mb-2 uppercase tracking-tight italic">{plan.name}</h3>
+                    <p className="text-on-surface-variant text-[11px] font-medium opacity-60 leading-relaxed min-h-[40px]">{plan.desc}</p>
+                  </div>
+                  
+                  <div className="mb-8">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-black text-white tracking-tighter">{plan.price}</span>
+                      <span className="text-on-surface-variant font-bold text-[10px] opacity-40">{plan.period}</span>
+                    </div>
+                  </div>
 
-                <a 
-                  href={`https://wa.me/6285753327872?text=Halo%20Monivexa,%20saya%20tertarik%20dengan%20paket%20${encodeURIComponent(tier.name)}`}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={`${tier.highlighted ? 'btn-primary' : 'btn-secondary'} w-full py-4 rounded-xl text-sm font-bold shadow-2xl transition-all flex items-center justify-center`}
-                >
-                  {tier.buttonText}
-                </a>
-              </div>
+                  <div className="space-y-4 flex-grow mb-10">
+                    {plan.features.map((f, i) => (
+                      <div key={i} className="flex items-start gap-3 text-[11px] font-medium text-white/70">
+                        <CheckCircle2 className="text-primary-fixed shrink-0" size={14} />
+                        <span>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {plan.setupFee && (
+                    <div className="mb-6 p-4 rounded-2xl bg-primary-fixed/5 border border-primary-fixed/10">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Settings size={12} className="text-primary-fixed" />
+                        <span className="text-[10px] font-black text-primary-fixed uppercase tracking-widest">Setup Fee</span>
+                      </div>
+                      <p className="text-[10px] text-white/50 font-medium">Rp {plan.setupFee} (Sekali bayar)</p>
+                      <p className="text-[9px] text-primary-fixed/40 mt-1 italic leading-tight">Konfigurasi SNMP OLT & Koordinat ODP Pertama</p>
+                    </div>
+                  )}
+
+                  <button 
+                    onClick={() => navigate('/register')}
+                    className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 active:scale-95 ${
+                      plan.highlight 
+                        ? 'bg-primary-fixed text-black shadow-lg shadow-primary-fixed/20' 
+                        : 'bg-white/5 text-white border border-white/10 hover:bg-white/10'
+                    }`}
+                  >
+                    {plan.name === 'DEMO' ? 'Start Trial' : 'Pilih Paket'} <ArrowRight size={14} />
+                  </button>
+                </div>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Feature Comparison Table */}
-        <section className="max-w-container-max mx-auto px-gutter py-xl">
-          <h3 className="text-3xl font-bold text-primary text-center mb-10 tracking-tight">Perbandingan Detail</h3>
-          <div className="glass-card rounded-2xl overflow-hidden border border-white/5">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-white/5">
-                  <th className="p-6 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Kapasitas & Fitur</th>
-                  <th className="p-6 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant text-center">FREE / DEMO</th>
-                  <th className="p-6 text-[11px] font-bold uppercase tracking-widest text-primary-fixed text-center bg-primary-fixed/5">STANDARD</th>
-                  <th className="p-6 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant text-center">PRO</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm">
-                {[
-                  ['Batas Pelanggan', '20', '300', 'Unlimited'],
-                  ['Sistem Penagihan', 'Manual', 'WhatsApp Automation', 'Payment Gateway'],
-                  ['Pemetaan GIS', 'Home Points', 'Home & ODP', 'Full Cable Topology'],
-                  ['Monitoring OLT', '-', '-', 'Real-time (SNMP)'],
-                  ['Support', 'Community', 'Email Support', 'Priority 24/7']
-                ].map((row, i) => (
-                  <tr key={i} className="border-t border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="p-6 text-on-surface font-medium">{row[0]}</td>
-                    <td className="p-6 text-on-surface-variant text-center">{row[1]}</td>
-                    <td className="p-6 text-primary text-center bg-primary-fixed/5 font-semibold">{row[2]}</td>
-                    <td className="p-6 text-on-surface-variant text-center">{row[3]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Trust & FAQ Link */}
+      <section className="py-24 px-gutter border-t border-white/5">
+        <div className="max-w-container-max mx-auto grid md:grid-cols-2 gap-20 items-center">
+          <div className="space-y-8">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase leading-none">Uncompromising <br/><span className="text-primary-fixed italic font-serif">Security & Reliability</span></h2>
+            <p className="text-on-surface-variant font-medium opacity-70 leading-relaxed text-lg">
+              Setiap paket (kecuali Demo) dikelola dengan prioritas tinggi untuk menjamin stabilitas bisnis ISP Anda. 
+            </p>
+            <div className="flex gap-10">
+              <div className="flex flex-col gap-2">
+                <ShieldCheck className="text-primary-fixed" size={24} />
+                <span className="text-[10px] font-black uppercase tracking-widest">Enterprise Security</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Globe className="text-primary-fixed" size={24} />
+                <span className="text-[10px] font-black uppercase tracking-widest">GIS Integration</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Zap className="text-primary-fixed" size={24} />
+                <span className="text-[10px] font-black uppercase tracking-widest">SNMP Monitoring</span>
+              </div>
+            </div>
           </div>
-        </section>
-      </main>
+          <div className="glass-card rounded-[3rem] p-12 border border-white/5 bg-gradient-to-br from-white/[0.03] to-transparent">
+            <div className="flex items-center gap-3 mb-6">
+              <Award className="text-primary-fixed" size={24} />
+              <h3 className="text-2xl font-bold uppercase tracking-tight italic">Assisted Setup Service</h3>
+            </div>
+            <p className="text-on-surface-variant font-medium mb-10 opacity-70">
+              Khusus paket <span className="text-white font-bold">PRO</span> dan <span className="text-white font-bold">CUSTOM</span>, tim ahli kami akan membantu Anda melakukan konfigurasi SNMP OLT dan input koordinat ODP pertama kali untuk memastikan sistem berjalan sempurna.
+            </p>
+            <a href="https://wa.me/6285753327872" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 text-primary-fixed font-black uppercase tracking-widest text-xs hover:gap-6 transition-all">
+              Hubungi Tim Teknis <ArrowRight size={18} />
+            </a>
+          </div>
+        </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="w-full py-xl bg-transparent border-t border-white/5 mt-auto">
-        <div className="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-4 gap-lg">
-          <div className="col-span-1 md:col-span-2">
-            <div className="text-2xl font-bold text-primary mb-4 tracking-tight">Monivexa</div>
-            <p className="text-body-sm text-on-surface-variant max-w-sm">© 2024 Monivexa Suite. Infrastructure Core v2.</p>
+      {/* Footer (Simplified from Landing) */}
+      <footer className="py-20 px-gutter border-t border-white/5">
+        <div className="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-3">
+            <img src="/assets/logo_monivexa.png" alt="Logo" className="h-8 w-auto" />
+            <span className="text-2xl font-black tracking-tighter uppercase text-white">Monivexa</span>
           </div>
+          <div className="flex gap-10">
+            {['Home', 'Services', 'About Us'].map(l => (
+              <a key={l} href="#" onClick={(e) => { e.preventDefault(); navigate(l === 'Home' ? '/' : `/${l.toLowerCase().replace(' ', '-')}`); }} className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed transition-colors">{l}</a>
+            ))}
+          </div>
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">© 2024 Monivexa Technical Group</p>
         </div>
       </footer>
     </div>

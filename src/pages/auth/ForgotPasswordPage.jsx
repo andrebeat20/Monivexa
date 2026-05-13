@@ -43,6 +43,11 @@ export default function ForgotPasswordPage() {
           <div className="glass-card rounded-2xl shadow-2xl p-lg flex flex-col gap-lg border border-white/5 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-30"></div>
             
+            <div className="flex justify-center mb-6">
+              <Link to="/">
+                <img src="/logo_monivexa.png" alt="Monivexa Logo" className="h-16 w-auto hover:scale-105 transition-transform" />
+              </Link>
+            </div>
             <div className="text-center">
               <span className="material-symbols-outlined text-primary-fixed text-5xl mb-4">lock_reset</span>
               <h1 className="font-headline-lg text-headline-lg text-on-surface mb-xs text-3xl">Forgot Password</h1>

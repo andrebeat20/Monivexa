@@ -25,7 +25,7 @@ import { useState, useEffect } from 'react';
 export default function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -116,25 +116,20 @@ export default function DashboardLayout() {
         ></div>
       )}
 
-      {/* Sidebar */}
       <aside className={`
-        bg-[#1a211f] border-r border-white/5 transition-all duration-300 flex flex-col z-50 
-        fixed md:relative h-full
-        ${isSidebarOpen ? 'w-64 translate-x-0' : 'w-20 -translate-x-full md:translate-x-0'}
+        bg-[#1a211f] border-r border-white/10 transition-all duration-300 flex flex-col z-[60] 
+        fixed top-0 bottom-0 left-0 shadow-2xl
+        ${isSidebarOpen ? 'w-64 translate-x-0' : 'w-0 -translate-x-full md:w-20 md:translate-x-0'}
       `}>
         {/* Brand */}
-        <div className="h-16 flex items-center px-6 border-b border-white/5 shrink-0 justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded bg-primary-fixed/20 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform text-primary-fixed">
-              {module.icon}
-            </div>
-            {(isSidebarOpen || window.innerWidth < 768) && (
-              <span className="text-xl font-bold text-primary tracking-tight">Monivexa</span>
-            )}
-          </Link>
-          <button className="md:hidden text-on-surface-variant" onClick={() => setIsSidebarOpen(false)}>
-            <ChevronRight className="rotate-180" />
-          </button>
+        <div 
+          className="h-20 flex items-center px-6 border-b border-white/5 shrink-0 justify-between cursor-pointer group"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          <div className="flex items-center gap-3 group-hover:scale-105 transition-transform">
+            <img src="/assets/logo_monivexa.png" alt="Monivexa Logo" className="h-10 w-auto shadow-2xl shrink-0" />
+            {isSidebarOpen && <span className="text-2xl font-black text-primary tracking-tighter uppercase truncate">Monivexa</span>}
+          </div>
         </div>
 
         {/* Navigation */}
@@ -190,15 +185,18 @@ export default function DashboardLayout() {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+      <div className={`
+        flex-1 flex flex-col min-w-0 overflow-hidden relative transition-all duration-300
+        ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'}
+      `}>
         {/* Top bar */}
         <header className="h-16 flex items-center justify-between px-4 md:px-6 bg-[#0e1512]/60 backdrop-blur-xl border-b border-white/5 z-40">
           <div className="flex items-center gap-4 flex-1">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-2 text-on-surface-variant hover:text-primary hover:bg-white/5 rounded-xl transition-colors"
+              className={`p-2 text-on-surface-variant hover:text-primary hover:bg-white/5 rounded-xl transition-all ${isSidebarOpen ? 'md:flex hidden' : 'flex'}`}
             >
-              <Menu size={20} />
+              <Menu size={22} />
             </button>
             
             {/* Search - Hidden on very small screens */}

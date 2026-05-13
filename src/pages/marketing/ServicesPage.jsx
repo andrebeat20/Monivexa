@@ -1,131 +1,179 @@
-import { useNavigate, Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { 
+  BarChart3, 
+  Globe, 
+  Zap, 
+  ShieldCheck, 
+  Cpu, 
+  Network, 
+  Database, 
+  Cloud, 
+  ChevronRight,
+  ArrowRight
+} from 'lucide-react';
+import Navbar from '../../components/Navbar';
 
 export default function ServicesPage() {
   const navigate = useNavigate();
 
+  const services = [
+    {
+      title: "Automated Billing Engine",
+      subtitle: "Finansial & Penagihan",
+      desc: "Sistem penagihan otomatis yang menangani siklus invoicing, integrasi payment gateway, dan laporan keuangan real-time untuk ISP skala besar.",
+      icon: <BarChart3 size={32} />,
+      features: ["Otomatisasi Invoice", "Multi-payment Gateway", "Laporan Piutang", "Manajemen Diskon"],
+      color: "from-cyan-500/20 to-blue-500/20"
+    },
+    {
+      title: "Smart Inventory Suite",
+      subtitle: "Stok & Logistik",
+      desc: "Kelola aset fisik dengan presisi tinggi. Lacak pergerakan perangkat dari gudang hingga ke tangan pelanggan dengan sistem serial tracking.",
+      icon: <Database size={32} />,
+      features: ["Serial Number Tracking", "Multi-Warehouse", "Stock Alert System", "Logistics Monitoring"],
+      color: "from-purple-500/20 to-pink-500/20"
+    },
+    {
+      title: "Network Intelligence",
+      subtitle: "Monitoring & Ops",
+      desc: "Visibilitas total terhadap infrastruktur jaringan Anda. Pantau status OLT dan ODP secara real-time untuk meminimalisir downtime.",
+      icon: <Network size={32} />,
+      features: ["OLT/ODP Monitoring", "Signal Analytics", "Fault Detection", "Topology Mapping"],
+      color: "from-emerald-500/20 to-teal-500/20"
+    }
+  ];
+
   return (
-    <div className="bg-transparent text-on-surface font-body-md min-h-screen flex flex-col relative w-full">
+    <div className="bg-[#0a0f0d] text-white min-h-screen selection:bg-primary-fixed/30 selection:text-primary-fixed overflow-x-hidden">
       <Navbar />
+      
+      {/* Services Hero */}
+      <section className="relative pt-40 pb-24 px-gutter overflow-hidden">
+        <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary-fixed/5 blur-[120px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/5 blur-[100px] rounded-full"></div>
+        
+        <div className="max-w-container-max mx-auto text-center relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
+          >
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-fixed">Our Capabilities</span>
+          </motion.div>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-8 uppercase italic"
+          >
+            CORE <span className="text-primary-fixed not-italic font-sans">SERVICES</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto font-medium opacity-70 leading-relaxed"
+          >
+            Kami menyediakan solusi infrastruktur digital ujung-ke-ujung yang dirancang khusus untuk memenuhi kebutuhan operasional ISP modern.
+          </motion.p>
+        </div>
+      </section>
 
-      {/* Main Content Canvas */}
-      <main className="flex-grow pt-24 pb-xl">
-        {/* Hero Section */}
-        <section className="max-w-container-max mx-auto px-gutter py-xl relative">
-          <div className="absolute inset-0 z-0 opacity-10 pointer-events-none rounded-xl overflow-hidden">
-            <img 
-              alt="Infrastructure Background" 
-              className="w-full h-full object-cover grayscale" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSbiMvpLCH-xYYQSn8CWrZ2OfeKoFpv4zldig9LN6TMABN5UuLxRvaYRNjSrYI0B-RxwcYPaZPYr_W91bHP11wSmvIXif2zpdJD9EbVy1EjoSHLIF8jkiHzMDmLqDM7dWDFwNkPJ43YK1qP_EFBrnkhwOSXH2Mxl7JCCjd6WdXu2llCYD4Zie3e0CcVEUBYg7QIpzKjTLj-oN8SOik7MgiTY7HfwC3s7TMTy5xA3sv_kpyWujWpko1rrXqZP3E2JTrniaX1cDj2C4" 
-            />
-          </div>
-          <div className="relative z-10 max-w-3xl">
-            <div className="inline-block px-3 py-1 mb-6 rounded-sm bg-primary-fixed/10 border border-primary-fixed/30 text-primary-fixed font-label-caps text-[10px] tracking-widest uppercase font-bold">
-              Inti Infrastruktur v2
-            </div>
-            <h1 className="text-4xl md:text-7xl font-extrabold text-primary mb-6 tracking-tighter leading-tight">
-              Operasi Terpadu untuk <br/>
-              <span className="text-primary-fixed">Jaringan Modern.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed opacity-90">
-              Monivexa menghadirkan rangkaian yang sangat terintegrasi yang dirancang khusus untuk ISP perusahaan. Dari analisis sinyal real-time di ODP hingga realisasi pendapatan otomatis.
-            </p>
-          </div>
-        </section>
-
-        {/* Services Bento Layout */}
-        <section className="max-w-container-max mx-auto px-gutter py-lg">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* Pillar 3: OLT & Network Monitoring (Featured/Wide) */}
-            <div className="md:col-span-12 lg:col-span-8 glass-card rounded-2xl p-8 md:p-10 flex flex-col justify-between relative overflow-hidden group hover:border-primary-fixed/30 transition-all duration-500">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-fixed/5 blur-[100px] rounded-full pointer-events-none"></div>
-              <div>
-                <div className="w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center mb-8 border border-white/10 group-hover:border-primary-fixed/50 transition-colors">
-                  <span className="material-symbols-outlined text-primary-fixed text-[28px]">router</span>
+      {/* Services Detail Grid */}
+      <section className="py-24 px-gutter relative">
+        <div className="max-w-container-max mx-auto space-y-32">
+          {services.map((service, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-20 items-center`}
+            >
+              <div className="flex-1 space-y-8">
+                <div className="space-y-4">
+                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary-fixed">{service.subtitle}</span>
+                  <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase">{service.title}</h2>
                 </div>
-                <h2 className="text-3xl font-bold text-primary mb-5">Pemantauan OLT & Jaringan</h2>
-                <p className="font-body-md text-on-surface-variant mb-8 max-w-xl leading-relaxed">
-                  Dapatkan visibilitas yang belum pernah ada sebelumnya ke lapisan fisik Anda. Lacak topologi real-time, pantau status ODP, dan lakukan analisis sinyal mendalam di seluruh jejak fiber Anda untuk memprediksi pemadaman sebelum berdampak pada pelanggan.
+                <p className="text-on-surface-variant text-xl font-medium leading-relaxed opacity-80">
+                  {service.desc}
                 </p>
-                <div className="flex flex-wrap gap-2 mt-6">
-                  {['Topologi Real-time', 'Pelacakan ODP', 'Diagnostik Sinyal'].map(tag => (
-                    <span key={tag} className="px-3 py-1 rounded-full bg-white/5 text-on-surface text-[11px] border border-white/10 font-medium">
-                      {tag}
-                    </span>
+                <div className="grid grid-cols-2 gap-4">
+                  {service.features.map((f, i) => (
+                    <div key={i} className="flex items-center gap-3 text-sm font-bold text-white/60">
+                      <ShieldCheck className="text-primary-fixed" size={16} />
+                      {f}
+                    </div>
                   ))}
                 </div>
+                <button onClick={() => navigate('/register')} className="inline-flex items-center gap-3 text-primary-fixed font-black text-xs tracking-widest uppercase group">
+                  Dapatkan Akses Sekarang <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                </button>
               </div>
-            </div>
+              
+              <div className="flex-1 relative">
+                <motion.div 
+                  whileHover={{ scale: 1.05, rotate: idx % 2 === 0 ? 2 : -2 }}
+                  className={`glass-card p-2 rounded-[3rem] border border-white/10 relative z-10 overflow-hidden group`}
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-20 group-hover:opacity-40 transition-opacity`}></div>
+                  <div className="bg-[#0e1512] rounded-[2.5rem] p-16 flex items-center justify-center text-primary-fixed relative z-10 border border-white/5">
+                    <div className="p-10 rounded-full bg-white/5 border border-white/10 shadow-2xl group-hover:scale-125 transition-transform duration-700">
+                      {service.icon}
+                    </div>
+                  </div>
+                </motion.div>
+                {/* Background Decoration */}
+                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-fixed/20 blur-[80px] rounded-full -z-10`}></div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
-            {/* Pillar 1: Billing & Revenue */}
-            <div className="md:col-span-6 lg:col-span-4 glass-card rounded-2xl p-8 flex flex-col justify-between hover:border-primary-fixed/20 transition-all duration-500 group">
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-primary-fixed group-hover:border-primary-fixed/50 transition-colors">
-                  <span className="material-symbols-outlined text-[24px]">account_balance_wallet</span>
-                </div>
-                <h3 className="text-2xl font-bold text-primary mb-4">Penagihan & Pendapatan</h3>
-                <p className="text-body-sm text-on-surface-variant mb-8 leading-relaxed">
-                  Otomatiskan alur keuangan Anda. Dari pembuatan faktur berulang hingga pelacakan pembayaran yang kompleks dan penghitungan pajak dinamis.
-                </p>
-              </div>
-              <div className="border-t border-white/5 pt-6 mt-auto">
-                <a className="text-[11px] font-bold uppercase tracking-widest text-primary-fixed hover:opacity-80 flex items-center gap-2 cursor-pointer transition-opacity">
-                  Jelajahi Billing <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </a>
-              </div>
-            </div>
+      {/* Secondary Services */}
+      <section className="py-32 px-gutter bg-white/[0.02] border-y border-white/5">
+        <div className="max-w-container-max mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-white uppercase mb-4">Ecosystem Support Features</h2>
+            <p className="text-on-surface-variant font-medium opacity-60">Teknologi pendukung yang memastikan sistem Anda berjalan tanpa hambatan.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { icon: <Cpu />, title: "High-Performance Core", desc: "Arsitektur sistem yang dioptimalkan untuk menangani jutaan baris data per detik." },
+              { icon: <Cloud />, title: "Real-time Sync", desc: "Sinkronisasi data instan di seluruh node jaringan tanpa latensi." },
+              { icon: <ShieldCheck />, title: "Enterprise Security", desc: "Enkripsi tingkat lanjut dan protokol akses aman berlapis." },
+              { icon: <ChevronRight />, title: "Developer API", desc: "Integrasikan Monivexa dengan sistem yang sudah Anda miliki dengan mudah." }
+            ].map((s, i) => (
+              <motion.div 
+                key={i}
+                whileHover={{ y: -10 }}
+                className="glass-card p-10 rounded-3xl border border-white/5 hover:border-primary-fixed/30 transition-all"
+              >
+                <div className="text-primary-fixed mb-6">{s.icon}</div>
+                <h4 className="text-xl font-bold text-white mb-4 tracking-tight uppercase">{s.title}</h4>
+                <p className="text-sm text-on-surface-variant font-medium leading-relaxed opacity-60">{s.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Pillar 2: Stock & Inventory */}
-            <div className="md:col-span-6 lg:col-span-4 glass-card rounded-2xl p-8 flex flex-col justify-between hover:border-primary-fixed/20 transition-all duration-500 group">
-              <div>
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-primary-fixed group-hover:border-primary-fixed/50 transition-colors">
-                  <span className="material-symbols-outlined text-[24px]">inventory_2</span>
-                </div>
-                <h3 className="text-2xl font-bold text-primary mb-4">Stok & Inventaris</h3>
-                <p className="text-body-sm text-on-surface-variant mb-8 leading-relaxed">
-                  Pertahankan kendali mutlak atas aset fisik Anda. Lacak router, ONT, dan kabel di beberapa gudang hingga ke alamat MAC.
-                </p>
-              </div>
-              <div className="border-t border-white/5 pt-6 mt-auto">
-                <a className="text-[11px] font-bold uppercase tracking-widest text-primary-fixed hover:opacity-80 flex items-center gap-2 cursor-pointer transition-opacity">
-                  Jelajahi Inventaris <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Additional Metric Card */}
-            <div className="md:col-span-12 lg:col-span-8 bg-[#1a211f]/40 backdrop-blur-sm border border-white/5 rounded-2xl p-10 flex items-center justify-center relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-fixed/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <div className="text-center relative z-10">
-                <div className="text-5xl md:text-6xl font-bold text-primary-fixed mb-3 tracking-tighter">99.999%</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-on-surface-variant opacity-60">SLA Platform Global</div>
-              </div>
-            </div>
+      {/* Footer (Simplified from Landing) */}
+      <footer className="py-20 px-gutter border-t border-white/5">
+        <div className="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-3">
+            <img src="/logo_monivexa.png" alt="Logo" className="h-8 w-auto" />
+            <span className="text-2xl font-black tracking-tighter uppercase text-white">Monivexa</span>
           </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="w-full py-xl bg-transparent border-t border-white/5">
-        <div className="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-4 gap-lg">
-          <div className="col-span-1 md:col-span-2">
-            <div className="text-2xl font-bold text-primary mb-4 tracking-tight">Monivexa</div>
-            <p className="text-body-sm text-on-surface-variant max-w-sm mb-6">© 2024 Monivexa Infrastructure Suite. Hak cipta dilindungi undang-undang.</p>
+          <div className="flex gap-10">
+            {['Home', 'Pricing', 'About Us'].map(l => (
+              <a key={l} href="#" onClick={(e) => { e.preventDefault(); navigate(l === 'Home' ? '/' : `/${l.toLowerCase().replace(' ', '-')}`); }} className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed transition-colors">{l}</a>
+            ))}
           </div>
-          <div className="col-span-1">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-6">Hukum</h4>
-            <ul className="space-y-3 text-body-sm text-on-surface-variant">
-              <li><a className="hover:text-primary-fixed transition-colors cursor-pointer">Kebijakan Privasi</a></li>
-              <li><a className="hover:text-primary-fixed transition-colors cursor-pointer">Ketentuan Layanan</a></li>
-            </ul>
-          </div>
-          <div className="col-span-1">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-6">Sumber Daya</h4>
-            <ul className="space-y-3 text-body-sm text-on-surface-variant">
-              <li><a className="hover:text-primary-fixed transition-colors cursor-pointer">Status Jaringan</a></li>
-              <li><a className="hover:text-primary-fixed transition-colors cursor-pointer">Dukungan</a></li>
-            </ul>
-          </div>
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">© 2024 Monivexa Technical Group</p>
         </div>
       </footer>
     </div>
